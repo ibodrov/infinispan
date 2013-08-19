@@ -124,7 +124,7 @@ public class TestCacheManagerFactory {
 
    public static EmbeddedCacheManager fromXml(String xmlFile, boolean keepJmxDomainName) throws IOException {
       InputStream is = FileLookupFactory.newInstance().lookupFileStrict(
-            xmlFile, Thread.currentThread().getContextClassLoader());
+            xmlFile, TestCacheManagerFactory.class.getClassLoader());
       return fromStream(is, keepJmxDomainName);
    }
 
@@ -137,7 +137,7 @@ public class TestCacheManagerFactory {
    }
 
    public static EmbeddedCacheManager fromStream(InputStream is, boolean keepJmxDomainName) throws IOException {
-      ParserRegistry parserRegistry = new ParserRegistry(Thread.currentThread().getContextClassLoader());
+      ParserRegistry parserRegistry = new ParserRegistry(TestCacheManagerFactory.class.getClassLoader());
       ConfigurationBuilderHolder holder = parserRegistry.parse(is);
       return createClusteredCacheManager(holder, keepJmxDomainName);
    }
@@ -558,7 +558,7 @@ public class TestCacheManagerFactory {
    public static void amendMarshaller(GlobalConfiguration configuration) {
       if (MARSHALLER != null) {
          try {
-            Util.loadClassStrict(MARSHALLER, Thread.currentThread().getContextClassLoader());
+            Util.loadClassStrict(MARSHALLER, TestCacheManagerFactory.class.getClassLoader());
             configuration.setMarshallerClass(MARSHALLER);
          } catch (ClassNotFoundException e) {
             // No-op, stick to GlobalConfiguration default.
@@ -570,7 +570,7 @@ public class TestCacheManagerFactory {
    public static void amendMarshaller(GlobalConfigurationBuilder builder) {
       if (MARSHALLER != null) {
          try {
-            Marshaller marshaller = Util.getInstanceStrict(MARSHALLER, Thread.currentThread().getContextClassLoader());
+            Marshaller marshaller = Util.getInstanceStrict(MARSHALLER, TestCacheManagerFactory.class.getClassLoader());
             builder.serialization().marshaller(marshaller);
          } catch (ClassNotFoundException e) {
             // No-op, stick to GlobalConfiguration default.
@@ -708,7 +708,7 @@ public class TestCacheManagerFactory {
 
    public static ConfigurationBuilderHolder buildAggregateHolder(String... xmls)
          throws XMLStreamException, FactoryConfigurationError {
-      ClassLoader cl = Thread.currentThread().getContextClassLoader();
+      ClassLoader cl = TestCacheManagerFactory.class.getClassLoader();
       // Configure the xml mapper
       XMLMapper xmlMapper = XMLMapper.Factory.create();
       @SuppressWarnings("rawtypes")

@@ -55,7 +55,7 @@ public class ExtendedParserTest {
 
    private void assertCacheConfiguration(String config) throws IOException {
       InputStream is = new ByteArrayInputStream(config.getBytes());
-      ParserRegistry parserRegistry = new ParserRegistry(Thread.currentThread().getContextClassLoader());
+      ParserRegistry parserRegistry = new ParserRegistry(this.getClass().getClassLoader());
       ConfigurationBuilderHolder holder = parserRegistry.parse(is);
 
       withCacheManager(new CacheManagerCallable(TestCacheManagerFactory.createClusteredCacheManager(holder)) {

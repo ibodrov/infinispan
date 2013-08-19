@@ -85,7 +85,7 @@
       <packaging>jar</packaging>
       <module.skipComponentMetaDataProcessing>true</module.skipComponentMetaDataProcessing>
       <module.metadata.isCoreModule>false</module.metadata.isCoreModule>
-      
+
       <version.aesh>0.33.1</version.aesh>
       <version.antlr>3.4</version.antlr>
       <version.apacheds.jdbm>1.5.7</version.apacheds.jdbm>
@@ -178,7 +178,7 @@
       <dir.ispn>../</dir.ispn>
       <dir.report>../jacoco-html</dir.report>
    </properties>
-   
+
    <dependencyManagement>
       <dependencies>
          <dependency>
@@ -218,7 +218,7 @@
             <version>${project.version}</version>
             <type>test-jar</type>
          </dependency>
-         
+
          <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>infinispan-core</artifactId>
@@ -838,7 +838,7 @@
       </dependencies>
    </dependencyManagement>
    <dependencies>
-      
+
       <dependency>
          <groupId>com.thoughtworks.xstream</groupId>
          <artifactId>xstream</artifactId>
@@ -1133,7 +1133,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-pmd-plugin</artifactId>
-               
+
                <version>2.7.1</version>
                <configuration>
                   <minimumTokens>100</minimumTokens>
@@ -1169,7 +1169,7 @@
                <artifactId>ideauidesigner-maven-plugin</artifactId>
                <version>1.0-beta-1</version>
             </plugin>
-            
+
             <plugin>
                <groupId>org.eclipse.m2e</groupId>
                <artifactId>lifecycle-mapping</artifactId>
@@ -1309,11 +1309,15 @@
             <configuration>
                <instructions>
                   <Bundle-DocURL>http://www.infinispan.org/</Bundle-DocURL>
-                  <Export-Package>${project.groupId}.*;version=${project.version};-split-package:=error</Export-Package>
+                  <Export-Package>
+                      ${project.groupId};version=${project.version},
+                      ${project.groupId}.*;version=${project.version};-split-package:=error
+                  </Export-Package>
+                  <DynamicImport-Package>*</DynamicImport-Package>
                </instructions>
             </configuration>
          </plugin>
-         
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
@@ -1328,13 +1332,13 @@
                   <configuration>
                      <skip>${module.skipComponentMetaDataProcessing}</skip>
                      <target>
-                        <copy file="${basedir}/src/main/resources/${project.artifactId}-component-metadata.dat" todir="${project.build.outputDirectory}" />
+                        <copy file="${basedir}/src/main/resources/org/infinispan/${project.artifactId}-component-metadata.dat" todir="${project.build.outputDirectory}/org/infinispan/" />
                      </target>
                   </configuration>
                </execution>
             </executions>
          </plugin>
-         
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -1346,7 +1350,7 @@
                <compilerArgument>-AtranslationFilesPath=${project.basedir}/target/generated-translation-files</compilerArgument>
             </configuration>
          </plugin>
-         
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-eclipse-plugin</artifactId>
@@ -1356,7 +1360,7 @@
                <buildOutputDirectory>${basedir}/eclipse-output</buildOutputDirectory>
             </configuration>
          </plugin>
-         
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-idea-plugin</artifactId>
@@ -1417,7 +1421,7 @@
                <encoding>UTF-8</encoding>
             </configuration>
          </plugin>
-         
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -1441,11 +1445,11 @@
                      <value>${testNGListener}</value>
                   </property>
                </properties>
-               
+
                <argLine>-Xmx1024m -XX:MaxPermSize=256m -Dsun.nio.ch.bugLevel</argLine>
             </configuration>
          </plugin>
-         
+
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -1461,7 +1465,7 @@
                      <mainClass>org.infinispan.factories.components.ComponentMetadataPersister</mainClass>
                      <arguments>
                         <argument>${project.build.outputDirectory}</argument>
-                        <argument>${basedir}/src/main/resources/${project.artifactId}-component-metadata.dat</argument>
+                        <argument>${basedir}/src/main/resources/org/infinispan/${project.artifactId}-component-metadata.dat</argument>
                      </arguments>
                      <systemProperties>
                         <systemProperty>
@@ -1477,11 +1481,11 @@
    </build>
    <reporting>
       <plugins>
-         
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
-            
+
             <version>2.7.1</version>
          </plugin>
          <plugin>
@@ -1489,7 +1493,7 @@
             <artifactId>maven-surefire-report-plugin</artifactId>
             <version>2.12.2</version>
          </plugin>
-         
+
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>findbugs-maven-plugin</artifactId>
@@ -1511,7 +1515,7 @@
 
          <build>
             <plugins>
-               
+
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-dependency-plugin</artifactId>
@@ -1542,7 +1546,7 @@
          </activation>
          <build>
             <plugins>
-               
+
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-enforcer-plugin</artifactId>
@@ -1566,7 +1570,7 @@
                      </execution>
                   </executions>
                </plugin>
-               
+
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-source-plugin</artifactId>
@@ -1585,7 +1589,7 @@
             </plugins>
          </build>
          <properties>
-            
+
             <packaging>bundle</packaging>
          </properties>
       </profile>
@@ -1605,7 +1609,7 @@
                   <artifactId>maven-surefire-plugin</artifactId>
                   <configuration>
                      <systemPropertyVariables>
-                           
+
                            <infinispan.module-name>${project.artifactId}</infinispan.module-name>
                      </systemPropertyVariables>
                   </configuration>
@@ -1680,7 +1684,7 @@
          </activation>
          <build>
             <plugins>
-               
+
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-surefire-plugin</artifactId>
@@ -1711,7 +1715,7 @@
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-dependency-plugin</artifactId>
                   <executions>
-                     
+
                      <execution>
                         <id>jacoco-dependency-ant</id>
                         <goals>
@@ -1749,7 +1753,7 @@
                   </executions>
                </plugin>
 
-               
+
                <plugin>
                   <groupId>org.jacoco</groupId>
                   <artifactId>jacoco-maven-plugin</artifactId>
@@ -1765,7 +1769,7 @@
                   </configuration>
                </plugin>
 
-               
+
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-surefire-plugin</artifactId>
@@ -1810,7 +1814,7 @@
                         </goals>
                         <configuration>
                            <target combine.self="override">
-                              
+
                               <taskdef classname="org.jacoco.ant.ReportTask" name="report">
                                  <classpath path="${basedir}/target/jacoco-jars/org.jacoco.ant.jar" />
                                  <classpath path="target/jacoco-jars/org.jacoco.core.jar" />
@@ -1826,12 +1830,12 @@
 
                               <echo message="Generating JaCoCo Reports" />
                               <report>
-                                 
+
                                  <executiondata>
                                     <fileset dir="${dir.ispn}" includes="**/target/jacoco.exec" />
                                  </executiondata>
 
-                                 
+
                                  <structure name="${reportTitle}">
                                     <classfiles>
                                        <fileset dir="${dir.ispn}">
@@ -1847,7 +1851,7 @@
 
                                  </structure>
 
-                                 
+
                                  <html destdir="${dir.report}" />
                               </report>
                            </target>

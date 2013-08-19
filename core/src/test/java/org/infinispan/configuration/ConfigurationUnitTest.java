@@ -205,7 +205,7 @@ public class ConfigurationUnitTest {
    @Test
    public void testSchema() throws Exception {
       FileLookup lookup = FileLookupFactory.newInstance();
-      URL schemaFile = lookup.lookupFileLocation("schema/infinispan-config-5.3.xsd", Thread.currentThread().getContextClassLoader());
+      URL schemaFile = lookup.lookupFileLocation("org/infinispan/schema/infinispan-config-5.3.xsd", Thread.currentThread().getContextClassLoader());
       Source xmlFile = new StreamSource(lookup.lookupFile("configs/all.xml", Thread.currentThread().getContextClassLoader()));
       SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile).newValidator().validate(xmlFile);
    }
